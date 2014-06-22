@@ -12,3 +12,15 @@ names(trainingFeatures) <- c("index", "feature")
 #extract mean and std value
 trainingFeatures <- trainingFeatures[grepl(".*std\\(\\).*", trainingFeatures$feature) | grepl(".*mean\\(\\).*", trainingFeatures$feature),]
 extractedData <- allData[, trainingFeatures$index]
+
+#step 3. use descriptive activity names to name the activities in the data set
+trainingActivityValue <- read.table("UCI HAR Dataset/train/y_train.txt")
+names(trainingActivityValue) <- c("value")
+testingActivityValue <- read.table("UCI HAR Dataset/test/y_test.txt")
+names(testingActivityValue) <- c("value")
+activityLabel <- read.table("UCI HAR Dataset/activity_labels.txt")
+names(activityLabel) <- c("value", "label")
+trainingActivityLabelRows <- merge(trainingActivityValue, activityLabel, by.x="value", by.y="value", sort=F)
+testingActivityLabelRows <- merge(testingActivityValue, activityLabel, by.x="value", by.y="value", sort=F)
+activityLabelCol <- rbind(trainingActivityLabelCol, testingActivityLabelCol)
+cbind(extractedData, activityLabelCol)
