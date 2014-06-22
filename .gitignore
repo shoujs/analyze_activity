@@ -6,3 +6,6 @@
 
 # R data files from past sessions
 .Rdata
+.Rproj.user
+getdata-projectfiles-UCI HAR Dataset.zip
+UCI HAR Dataset
