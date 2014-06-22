@@ -23,4 +23,7 @@ names(activityLabel) <- c("value", "label")
 trainingActivityLabelRows <- merge(trainingActivityValue, activityLabel, by.x="value", by.y="value", sort=F)
 testingActivityLabelRows <- merge(testingActivityValue, activityLabel, by.x="value", by.y="value", sort=F)
 activityLabelCol <- rbind(trainingActivityLabelRows, testingActivityLabelRows)
-cbind(extractedData, activityLabelCol$label)
+extractedData <- cbind(extractedData, activityLabelCol$label)
+
+#step 4. label the data set
+names(extractedData) <- c(trainingFeatures$feature, "activity")
