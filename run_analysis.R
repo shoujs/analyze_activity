@@ -27,3 +27,15 @@ extractedData <- cbind(extractedData, activityLabelCol$label)
 
 #step 4. label the data set
 names(extractedData) <- c(trainingFeatures$feature, "activity")
+
+#step 5. a second data set with the average of each variable for each activity and each subject
+subjectTrain <- read.table("UCI HAR Dataset/train/subject_train.txt")
+subjectTest <- read.table("UCI HAR Dataset/test/subject_test.txt")
+subjectAll <- rbind(subjectTrain, subjectTest)
+extractedData <- cbind(extractedData, subjectAll)
+colnames(extractedData)[ncol(extractedData)] <- "subject"
+extractedData$subject <- as.numeric(extractedData$subject)
+tidyData <- aggregate(extractedData[, 1:(ncol(extractedData)-2)], list(extractedData$subject, extractedData$activity), FUN=mean)
+colnames(tidyData)[1:2] <- c("subject", "activity")
+tidyData <- tidyData[order(tidyData$subject),]
+write.table(tidyData, file="tidydata.txt")
